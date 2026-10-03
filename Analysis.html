@@ -15,34 +15,67 @@
 <body>
  <!-- Navbar -->
 <header class="navbar">
+
     <!-- Logo + Name -->
-    <a href="#" class="brand">
+    <a href="index.html" class="brand">
         <div class="logo">
-            <img src="images/logo.png">
+            <img src="images/logo.png" alt="OrthoScan Logo">
         </div>
+
         <div class="brand-text">
             <h1>OrthoScan</h1>
         </div>
     </a>
-    <!-- Navigation -->
+
+
+    <!-- Desktop Navigation -->
     <nav class="nav-links">
-        <a href="index.html" >
+
+        <a href="index.html" class="nav-link">
             Home
         </a>
-        <a href="#" class="nav-link active">
+
+        <a href="Analysis.html" class="nav-link" active>
             Analyze
         </a>
-        <a href="report.html" >
-            Reports
-        </a>
-        <a href="history.html">
+
+        <a href="history.html" class="nav-link ">
             History
         </a>
+
     </nav>
+
+
     <!-- Right Side -->
     <div class="nav-right">
+
+        <!-- Mobile Menu Button -->
+        <button class="menu-btn" id="menuBtn" aria-label="Open navigation">
+            ☰
+        </button>
+
     </div>
+
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-menu" id="mobileMenu">
+
+        <a href="index.html" class="mobile-link">
+            Home
+        </a>
+
+        <a href="Analysis.html" class="mobile-link active">
+            Analyze
+        </a>
+
+        <a href="history.html" class="mobile-link">
+            History
+        </a>
+
+    </nav>
+
 </header>
+
 
     <!-- ============================= -->
 <!-- UPLOAD SCREEN -->
@@ -535,13 +568,13 @@
 
                 <div class="result-status">
 
-                    <span class="status-dot"></span>
+                    <span class="status-dot" id="statusDot"></span>
 
                     <div>
                         <small>Screening Status</small>
 
-                        <strong>
-                            No obvious fracture detected
+                        <strong id="resultStatus">
+                            Analyzing...
                         </strong>
                     </div>
 
@@ -670,7 +703,6 @@
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="Analysis.js"></script>
-    <script src="Analysis.js"></script>
 
 </body>
 </html>

@@ -1,25 +1,57 @@
-// ======================================
-// NAVIGATION
-// ======================================
+// =============================
+// Mobile Menu
+// =============================
 
-const navLinks = document.querySelectorAll(".nav-link");
+const menuBtn = document.getElementById("menuBtn");
+const mobileMenu = document.getElementById("mobileMenu");
 
-navLinks.forEach(link => {
 
-    link.addEventListener("click", function (e) {
+// Open / Close mobile menu
 
-        e.preventDefault();
+menuBtn.addEventListener("click", function () {
 
-        navLinks.forEach(item => {
-            item.classList.remove("active");
-        });
+    mobileMenu.classList.toggle("show");
 
-        this.classList.add("active");
+});
+
+
+// Close menu after clicking a link
+
+const mobileLinks = document.querySelectorAll(".mobile-link");
+
+mobileLinks.forEach(link => {
+
+    link.addEventListener("click", function () {
+
+        mobileMenu.classList.remove("show");
 
     });
 
 });
 
+
+// =============================
+// Desktop Active Navigation
+// =============================
+
+const currentPage = window.location.pathname.split("/").pop();
+
+const desktopLinks = document.querySelectorAll(".nav-links .nav-link");
+
+desktopLinks.forEach(link => {
+
+    const linkPage = link.getAttribute("href").split("/").pop();
+
+    if (linkPage === currentPage) {
+
+        desktopLinks.forEach(item => {
+            item.classList.remove("active");
+        });
+
+        link.classList.add("active");
+    }
+
+});
 
 // ======================================
 // ELEMENTS
@@ -503,10 +535,9 @@ function startAnalysis() {
 
                 setTimeout(function () {
 
-                    showResultScreen();
+                    runPrediction();
 
                 }, 800);
-
             }
 
         }, 45);
@@ -517,61 +548,196 @@ function startAnalysis() {
 // ======================================
 // RESULT SCREEN
 // ======================================
+// ======================================
+// SEND X-RAY TO FLASK AI
+// ======================================
 
-function showResultScreen() {
+async function runPrediction() {
 
-    document
-        .getElementById("analyzingScreen")
-        .style.display = "none";
+    const file = input.files[0];
 
-
-    document
-        .getElementById("resultScreen")
-        .style.display = "block";
-
-
-    const file =
-        input.files[0];
-
-
-    if (!file) return;
-
-
-    const imageURL =
-        URL.createObjectURL(file);
-
-
-    const resultImage =
-        document.getElementById(
-            "resultImage"
-        );
-
-
-    if (resultImage) {
-
-        resultImage.src =
-            imageURL;
-
+    if (!file) {
+        alert("No X-ray image selected.");
+        return;
     }
 
+    try {
 
-    // Result file name
+        const formData = new FormData();
 
-    const resultFileName =
-        document.getElementById(
-            "resultFileName"
+        formData.append("file", file);
+
+        const response = await fetch(
+            "http://127.0.0.1:5000/predict",
+            {
+                method: "POST",
+                body: formData
+            }
         );
 
-    if (resultFileName) {
+        const data = await response.json();
 
-        resultFileName.textContent =
-            file.name;
+        if (!response.ok) {
+            throw new Error(
+                data.error || "Prediction failed."
+            );
+        }
 
+        console.log("AI Result:", data);
+
+        // Store result globally for PDF report
+        window.aiResult = data;
+
+        showResultScreen(data);
+
+    }
+    catch (error) {
+
+        console.error(
+            "Prediction error:",
+            error
+        );
+
+        alert(
+            "Unable to connect to AI model. " +
+            "Please make sure Flask is running."
+        );
+
+        document
+            .getElementById("analyzingScreen")
+            .style.display = "none";
+
+        document
+            .getElementById("previewScreen")
+            .style.display = "block";
     }
 
 }
 
+// ======================================
+// RESULT SCREEN
+// ======================================
 
+function showResultScreen(data) {
+
+    document.getElementById("analyzingScreen").style.display = "none";
+    document.getElementById("resultScreen").style.display = "block";
+
+    const file = input.files[0];
+
+    if (!file) return;
+
+    // ==============================
+    // SHOW ORIGINAL X-RAY
+    // ==============================
+
+    const imageURL = URL.createObjectURL(file);
+
+    const resultImage = document.getElementById("resultImage");
+
+    if (resultImage) {
+        resultImage.src = imageURL;
+    }
+
+    // ==============================
+    // FILE NAME
+    // ==============================
+
+    const resultFileName =
+        document.getElementById("resultFileName");
+
+    if (resultFileName) {
+        resultFileName.textContent = file.name;
+    }
+
+    // ==============================
+    // AI RESULT
+    // ==============================
+
+    const result = data.result;
+    const confidence = Number(data.confidence);
+
+    console.log("Prediction:", result);
+    console.log("Confidence:", confidence + "%");
+    console.log("Model Output:", data.model_output);
+
+    // ==============================
+    // RESULT STATUS
+    // ==============================
+
+    const resultStatus =
+        document.getElementById("resultStatus");
+
+    const statusDot =
+        document.getElementById("statusDot");
+
+    if (resultStatus) {
+
+        if (result === "FRACTURED") {
+
+            resultStatus.textContent =
+                "Fracture detected";
+
+        } else {
+
+            resultStatus.textContent =
+                "No obvious fracture detected";
+        }
+    }
+
+    // ==============================
+    // CONFIDENCE
+    // ==============================
+
+    const confidenceValue =
+        document.getElementById("confidenceValue");
+
+    if (confidenceValue) {
+
+        confidenceValue.textContent =
+            confidence.toFixed(2) + "%";
+    }
+
+    // ==============================
+    // CONFIDENCE BAR
+    // ==============================
+
+    const confidenceFill =
+        document.querySelector(".confidence-fill");
+
+    if (confidenceFill) {
+
+        confidenceFill.style.width =
+            confidence.toFixed(2) + "%";
+    }
+
+    // ==============================
+    // FINDING - FRACTURE
+    // ==============================
+
+    const findings =
+        document.querySelectorAll(".finding p");
+
+    if (findings.length >= 2) {
+
+        if (result === "FRACTURED") {
+
+            findings[0].textContent =
+                "Possible abnormal bone pattern detected.";
+
+            findings[1].textContent =
+                "Fracture pattern detected by the AI model.";
+
+        } else {
+
+            findings[0].textContent =
+                "Bone alignment appears preserved.";
+
+            findings[1].textContent =
+                "No obvious fracture pattern identified.";
+        }
+    }
+}
 // ======================================
 // NEW ANALYSIS
 // ======================================

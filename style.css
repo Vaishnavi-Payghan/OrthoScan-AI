@@ -54,28 +54,27 @@ body {
     gap: 38px;
     margin-left: 30px;
 }
+
 .nav-links a {
     height: 100%;
     display: flex;
     align-items: center;
-    gap: 9px;
     position: relative;
     text-decoration: none;
     margin-right: 20px;
     color: #415875;
     font-size: 15px;
     font-weight: 500;
-    position: relative;
-    text-decoration: none;
 }
-.nav-link:hover, nav-link:focus {
+
+.nav-links a:hover {
     color: #0868d9;
 }
+
 .nav-link.active {
     color: #0868d9;
-
-
 }
+
 .nav-link.active::after {
     content: "";
     position: absolute;
@@ -86,87 +85,198 @@ body {
     border-radius: 5px;
     background: #0876e8;
 }
-.nav-link.active::after {
-        width: 100%;
 
-}
-.nav-link span {
-    font-size: 21px;
-}
+
 /* ================= RIGHT SIDE ================= */
+
 .nav-right {
     display: flex;
     align-items: center;
-
     gap: 25px;
 }
-.sun-btn {
-    width: 40px;
-    height: 40px;
+
+
+/* ================= HAMBURGER BUTTON ================= */
+
+.menu-btn {
+    display: none;
+
+    width: 42px;
+    height: 42px;
+
     border: none;
     background: transparent;
-    font-size: 24px;
-    cursor: pointer;
+
+    font-size: 28px;
     color: #16355e;
-}
-.arrow {
-    font-size: 21px;
-    color: #526d8c;
+
     cursor: pointer;
+
+    align-items: center;
+    justify-content: center;
 }
+
+
+/* ================= MOBILE MENU ================= */
+
+.mobile-menu {
+    display: none;
+}
+
+
 /* ================= TABLET ================= */
+
 @media (max-width: 900px) {
+
     .navbar {
         padding: 0 20px;
     }
+
     .nav-links {
         gap: 18px;
     }
+
     .nav-link {
         font-size: 13px;
     }
+
     .brand-text h1 {
         font-size: 21px;
     }
 }
+
+
 /* ================= MOBILE ================= */
+
 @media (max-width: 700px) {
+
     .navbar {
         height: 65px;
         padding: 0 15px;
+
+        position: relative;
     }
-    .logo {
-        width: 42px;
-        height: 42px;
-        font-size: 21px;
-    }
+
     .brand-text h1 {
         font-size: 19px;
     }
-    .brand-text span {
-        display: none;
-    }
+
+
+    /* Desktop navigation hide */
     .nav-links {
         display: none;
     }
+
+
+    /* Hamburger show */
+    .menu-btn {
+        display: flex;
+    }
+
+
     .nav-right {
         gap: 8px;
     }
-    .sun-btn {
-        font-size: 21px;
+
+
+    /* Mobile dropdown */
+
+    .mobile-menu {
+        position: absolute;
+
+        top: 65px;
+        right: 15px;
+
+        width: 200px;
+
+        background: white;
+
+        border-radius: 12px;
+
+        padding: 10px 0;
+
+        display: flex;
+        flex-direction: column;
+
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+
+        opacity: 0;
+        visibility: hidden;
+
+        transform: translateY(-10px);
+
+        transition:
+            opacity 0.25s ease,
+            transform 0.25s ease,
+            visibility 0.25s ease;
+
+        z-index: 1000;
+    }
+
+
+    /* Menu open */
+
+    .mobile-menu.show {
+        opacity: 1;
+        visibility: visible;
+
+        transform: translateY(0);
+    }
+
+
+    /* Mobile links */
+
+    .mobile-link {
+        padding: 13px 20px;
+
+        text-decoration: none;
+
+        color: #415875;
+
+        font-size: 15px;
+
+        font-weight: 500;
+
+        transition: 0.2s;
+    }
+
+
+    .mobile-link:hover {
+        background: #f2f7ff;
+        color: #0868d9;
+    }
+
+
+    .mobile-link.active {
+        color: #0868d9;
+
+        background: #f2f7ff;
+
+        border-left: 3px solid #0876e8;
     }
 }
+
+
 /* ================= SMALL MOBILE ================= */
+
 @media (max-width: 420px) {
+
     .brand-text h1 {
         font-size: 17px;
     }
+
+    .mobile-menu {
+        right: 10px;
+        width: 180px;
+    }
+
 }
+
 /* =======HERO SECTION ===========*/
 .hero-section {
     width: 94%;
     max-width: 1450px;
-    height: 420px;
+    min-height: 420px;
     margin: 20px auto;
     display: flex;
     align-items: center;
@@ -245,9 +355,14 @@ body {
 /* ===== MOBILE=====*/
 @media (max-width: 750px) {
     .hero-section {
-        height: auto;
-        min-height: 650px;
-        flex-direction: column;
+        min-height: 420px;
+        background-image: url("images/hero-img1.png");
+        background-size: c;
+        background-position: center top;
+        background-repeat: no-repeat;
+
+        background-color: #eef7ff;
+        /* flex-direction: column; */
     }
     .hero-content {
         width: 100%;
@@ -266,11 +381,7 @@ body {
     .hero-feature {
         width: 45%;
     }
-    .hero-image {
-        width: 100%;
-        height: 280px;
-        position: relative;
-    }
+    
 }
 /* SMALL MOBILE */
 @media (max-width: 480px) {
@@ -286,9 +397,7 @@ body {
     .hero-feature {
         width: 100%;
     }
-    .hero-image {
-        height: 240px;
-    }
+    
 }
 
 /* Main Section */
@@ -326,7 +435,6 @@ body {
   grid-template-columns: repeat(4, 1fr);
   gap: 18px;
 }
-
 /* Card */
 .feature-card {
   min-height: 200px;
@@ -366,14 +474,12 @@ body {
   margin-bottom: 14px;
   color: #1c2930;
 }
-
 /* Card Description */
 .feature-card p {
   font-size: 15px;
   line-height: 1.65;
   color: #64727a;
 }
-
 /* Bottom Label */
 .feature-card span {
   margin-top: auto;
@@ -391,7 +497,6 @@ body {
   .section-heading h2 {
     font-size: 36px;
   }
-
 }
 /* ========================= MOBILE========================= */
 @media (max-width: 600px) {
@@ -425,28 +530,19 @@ body {
   }
 
 }
-/* =========================
-   HOW IT WORKS
-========================= */
-
+/* ========================= HOW IT WORKS========================= */
 .how-it-works {
   width: 100%;
   padding: 80px 5%;
   background: #f8fbfc;
   overflow: hidden;
 }
-
-
-/* =========================
-   HEADER
-========================= */
-
+/* =========================  HEADER========================= */
 .how-header {
   max-width: 900px;
   margin: 0 auto 85px;
   text-align: center;
 }
-
 .how-header h2 {
   margin: 0 0 18px;
   font-size: 42px;
@@ -454,7 +550,6 @@ body {
   color: #17232b;
   letter-spacing: -1px;
 }
-
 .how-header p {
   margin: 0;
   font-size: 17px;
@@ -517,7 +612,6 @@ body {
   color: #65727a;
 }
 /* ========================= TABLET========================= */
-
 @media (max-width: 1000px) {
   .how-it-works {
     padding: 30px 4%;

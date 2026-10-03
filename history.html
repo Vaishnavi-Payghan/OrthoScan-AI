@@ -6,36 +6,213 @@
     <link rel="stylesheet" href="history.css">
 </head>
 <body>
-      <!-- Navbar -->
-<header class="navbar">
+    <header class="navbar">
+
     <!-- Logo + Name -->
-    <a href="#" class="brand">
+    <a href="index.html" class="brand">
         <div class="logo">
-            <img src="images/logo.png">
+            <img src="images/logo.png" alt="OrthoScan Logo">
         </div>
+
         <div class="brand-text">
             <h1>OrthoScan</h1>
         </div>
     </a>
-    <!-- Navigation -->
+
+
+    <!-- Desktop Navigation -->
     <nav class="nav-links">
-        <a href="index.html" >
+
+        <a href="index.html" class="nav-link">
             Home
         </a>
-        <a href="Analysis.html">
+
+        <a href="Analysis.html" class="nav-link">
             Analyze
         </a>
-        <a href="report.html">
-            Reports
-        </a>
-        <a href="history.html" class="nav-link active" >
+
+        <a href="history.html" class="nav-link active">
             History
         </a>
+
     </nav>
+
+
     <!-- Right Side -->
     <div class="nav-right">
+
+        <!-- Mobile Menu Button -->
+        <button class="menu-btn" id="menuBtn" aria-label="Open navigation">
+            ☰
+        </button>
+
     </div>
+
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-menu" id="mobileMenu">
+
+        <a href="index.html" class="mobile-link">
+            Home
+        </a>
+
+        <a href="Analysis.html" class="mobile-link">
+            Analyze
+        </a>
+
+
+        <a href="history.html" class="mobile-link active">
+            History
+        </a>
+
+    </nav>
+
 </header>
+
+
+    <!-- Heading -->
+    <section class="heading">
+
+        <div class="heading-left">
+
+            <div class="heading-icon">
+                ▤
+            </div>
+
+            <div>
+                <h2>Your Reports</h2>
+
+                <p>
+                    View and manage your X-ray analysis reports.
+                    Download detailed reports<br>
+                    with AI findings and recommendations.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="summary">
+
+            <div class="summary-item">
+                <div class="summary-icon">▤</div>
+
+                <div>
+                    <strong id="totalReports">5</strong>
+                    <span>Total Reports</span>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="summary-item">
+
+                <div class="summary-icon">▣</div>
+
+                <div>
+                    <small>Last Analysis</small>
+                    <strong>30 Sep 2026</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Reports -->
+    <section class="reports-card">
+
+        <!-- Search + filters -->
+        <div class="toolbar">
+
+            <div class="search-box">
+                <span>⌕</span>
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search by file name..."
+                >
+            </div>
+
+
+            <div class="filters">
+
+                <button class="filter active" data-type="All">
+                    All Reports
+                </button>
+
+                <button class="filter" data-type="Hand">
+                    Hand
+                </button>
+
+                <button class="filter" data-type="Leg">
+                    Leg
+                </button>
+
+                <button class="filter" data-type="Knee">
+                    Knee
+                </button>
+
+                <button class="filter" data-type="Spine">
+                    Spine
+                </button>
+
+                <select id="dateFilter">
+                    <option>▣ Last 7 Days</option>
+                    <option>All Dates</option>
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- Table -->
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>#</th>
+                        <th>X-ray Image</th>
+                        <th>File Name</th>
+                        <th>Analysis Date</th>
+                        <th>Type</th>
+                        <th>Result</th>
+                        <th>Confidence</th>
+                        <th>Actions</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="reportBody"></tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- Note -->
+        <div class="note">
+
+            <span>i</span>
+
+            <p>
+                Note: These results are generated using AI and are intended
+                for screening assistance only. Please consult a qualified
+                medical professional for a final diagnosis.
+            </p>
+
+        </div>
+
+    </section>
+
+</main>
+
 
 <script src="history.js"></script>
 </body>
